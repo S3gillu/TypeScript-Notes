@@ -944,7 +944,450 @@ num-- ;
 
 ***********************************************************************************************************************************************************************
 
+** Functions :
 
+        |- These are the building blocks of readable, maintainable, and reusable code.
+
+        |- It is a set of statements to perform a specific task.
+
+        |- It organise the program into a logical blocks of code. This makes the code reusable.
+
+        |- A function declarations tells the compiler about a function's name, return type, and parameters.
+
+  (1) Defining a function :
+
+        |- A function definition specifies what and how a specific task would be done.
+
+        |- Before using a function it must be defined.
+
+         |- functions are defined using " function " keyword.
+
+         |- SYNTAX :
+
+             |-     function function_name() 
+
+                     {
+                       //function body
+                     }
+  
+   (2) Calling a function :
+        
+        |- A functoin must be called so as to execute it.
+
+        |- This term is called as "function invocation".
+
+        |- SYNTAX :
+
+             |- function_name()
+
+        |-  e.g,
+                     function xyz()                        // Function definition
+                      {
+                          console.log("Function called")
+                      } 
+
+                    xyz()                                  // Function invocation                     // OUTPUT : Function Called
+
+
+    (3) Returning Functions :
+
+         |- Functions may also return value along with control, back to the caller.
+
+         |- SYNTAX :
+
+              |-    function function_name() : return_type 
+                      {
+                         // statements 
+                            
+                          return value;
+                      }
+        **Note:
+
+         |- The " return_type " can be any valid data type.
+ 
+         |- A returning function must end with a " return statement ".
+
+         |- There can be only " one return statement per function ".
+
+         |- The " data type " of the value returned must match the " return type " of the function.
+
+         |- e.g,
+                   function xyz() : string 
+                     {
+                         return "Hello Shubham Saurabh"
+                     }
+                   function abc()
+                     {
+                        var greet = xyz()
+                        console.log(greet)
+                     }
+
+                  abc ()                                                  // OUTPUT : Hello Shubham Saurabh
+
+
+     (4) Parameterized Function :
+
+              |- Parameters are mechanism to pass values to functions.
+
+              |- The parameter values are passed to the function during it's " invocation ".
+
+              |- Unless explicitly specified, the " number of values passed to a function must match the number of parameters defined ".
+
+              |- While calling a function, there are " two ways " that " arguments can be passed to a function " :-
+
+                (i) Call By Value :
+
+                     |- This method copies the  " actual value of an argument " into the formal parameter of the function.
+
+                     |- In this case, changes made to the parameter inside the function have no effect on the argument.
+
+                (ii) Call By Parameter :
+
+                     |- This method copies the " address of an argument " into the formal parameter.
+
+                     |- Inside the function, the address is used to access the actual argument used in the call. This means that changes made to the parameter.
+
+
+              |- SYNTAX :
+
+                    |- function func_name(param1:[datatype], param2:[datatype])
+                             {
+                                    // statements
+                             }
+                    |- e.g, 
+                              function xyz(n1 : number , s1: string)
+                                 {
+                                     console.log(n1)
+                                     console.log(s1)
+                                 }
+                              xyz(123 , "Hello World")                                // OUTPUT : 123
+                                                                                                  Hello World
+
+
+      (5) Optional Parameter :
+
+            |- These are used when argument need not be compulsorily passed for a function's execution.
+
+            |- A Parameter can be marked " optional " by appending  a " question mark to its name " .
+
+            |- It should be set as the " last argument " in a function.
+
+            |- SYNTAX :
+
+                  |- function func_name(param1 : [datatype], param2 : [datatype], param3 ?: [datatype])
+
+                  |- e.g, 
+                            function student_details( name : string , id : number , email ?: string)
+                                {
+                                     console.log("Name:" , name)
+                                     console.log("Id:" , id)
+
+                                       if(email != undefined)
+                                          {
+                                             console.log("Email" , email)
+                                          }
+                                }
+                                
+                            student_details("shubham saurabh" , 1 )
+                            student_details("mayank joshi", 2 , "mayank@email.com")
+
+
+       (6) Rest parameters :
+
+             |- It don't restrict the number of values that we can pass to a function.	
+
+             |- However the values passed must be of the same type.  
+
+             |- It act as a placeholders for multiple arguments of the same type.
+
+             |- SYNTAX :
+
+                 |- To declare a rest parameter, the " parameter name is prefixed with the three periods ".
+
+                 |- Any " nonrest parameter "  should come before the rest parameter.   
+    
+                 |- Rest Parameters are treated as a boundless number of optional parameters.
+
+                 |- The compiler will build an " array of the arguments " passed in with the name given after the " ellipsis (...) ", allowing you to use it in your function.
+
+                 |- e.g, 
+                              function buildName(firstName: string, ...restOfName: string[])
+                              {
+                              return firstName + " " + restOfName.join(" ");
+                              }
+
+                             let employeeName = buildName("Joseph", "Samuel", "Lucas", "MacKinzie"); 
+                             console.log(employeeName)                                                   //OUTPUT : Joseph Samuel Lucas Mackinzie
+
+  
+   (7) Default Parameters :
+
+           |- Functions can also be assigned values by default.
+
+           |- SYNTAX :
+
+                |-   function func_name(param1 : [datatype] , param2 : [datatype] = default_value) 
+                     {
+                            //statements
+                     }
+
+         **Note :
+
+            |- A function can not be declared optional and default at the same time.
+
+              |- e.g,
+                           var discount(price : number , rate : number = 0.50)
+                            {
+                              var discount_amount =  price * rate   
+                              console.log(discount_amount)
+                            }
+                           
+                              discount(3000)
+                              discount(1000 , 0.30)                                            // OUTPUT : 1500
+                                                 							   300
+
+  (8) Anonymous Function :
+
+       |- Functions that are not bound to an identifier (function name) are called as " anonymous functions ".
+
+       |- These are dynamically " declared at run time ".
+
+       |- They can accept inputs and return outputs, just as standard function.
+
+       |- It is usually not accessible after its initial creation.
+
+       |- Variables can assign anonymous function. Such an expression is called a function expression.
+
+       |- SYNTAX :
+
+           |- var res = function( [arguments] ) { }
+
+           |- e.g, Simple anonymous function :
+
+                      var msg = function()
+                                         {
+                                              return "Hello World"
+                                        }
+                       console.log(msg())                                  // OUTPUT : Hello World
+
+           |- e.g, Anonymous functions with parameter :
+
+                                 var num = function(a,b)
+                                         {
+                                               return a*b
+                                         }
+                                 console.log(num(2,3))                   //OUTPUT : 6
+
+
+ (9) Facts about Functoin Expression and Function Declaration :
+
+       |- They are not synonymous.
+
+       |- Unlike a function expression, a function declaration is bound by the function name.
+
+       |- Basic difference between these two is : Function declarations are parsed before their execution. On the other hand, function expressions are parsed only
+                                                  when the script engine encounters it during execution.
+
+       |- When a JS parser sees a " function in the main code flow ", it assumes " function declaration ".
+
+       |- When a " function comes as a part of a statement ", it is a " Function Expression ".
+
+(10) The Function Constructor :
+
+       |- TS also supports defining a function with the " built-in JS constructor " called " Function() "
+
+       |- SYNTAX :
+
+           |- var res  = new Function( [arguments] ) {...}
+
+           |- e.g,
+                       var myFunction = new Function("a" , "b", "return a*b")
+                       var x = myFunction(4,3)
+                       console.log(x)                                            // OUTPUT : 12
+
+      
+
+
+           |- The new Function() is a call to the constructor which in turns creates and returns a function reference.
+
+(11) Recursion and TypeScript Functions :
+
+      |- It is a technique for iterating over an operation by having a function call to itself repeatedly until it arrives as a result.
+
+      |- It is best applied when we need to call the same function repeatedly with different parameters from within a loop.
+
+      |- e.g, 
+                function factorial(number)
+                {
+                  if(number <= 0)
+                   {
+                    return 1;
+                   } else 
+                    {
+                      return(number * factorial(number -1))
+                    }
+                }
+                 console.log(factorial(10))
+
+(12) Anonymous Recursive Function :
+  
+       |- e.g,
+                     (function()
+                       {
+                          var x = "Hello !"
+                          console.log(x)
+                       }) ()                  // Function invokes itself using a pair of parentheses ()
+
+
+
+(13) Lambda Functions :
+
+      |- Lambda refers to anonymous functions in programming.
+
+      |- These are concise mechanism to represent anonymous functions.
+
+      |- These functions are also called as " Arrow Functions "
+
+      |- There are three parts to lambda function :
+    
+          (i) Parameters : 
+          
+                 |- A function may optionally have parameters.
+
+         (ii) The Fat Arrow notation / Lambda Expression :
+
+                 |- Also known as "goes to" operator.
+
+        (iii) Statements :
+
+                 |- reperesents the function's instruction set.
+
+   ** Lambda Expression :
+
+        |- It is an " anonymous " function expression thatb points to a single line of code.
+
+        |- SYNTAX :
+
+              |- ([param1, param2, ...param n]) => statement;
+
+              |- e.g,
+                        var result = (x:number) => 10 + x
+                        console.log(result(100))               // OUTPUT : 110
+
+  ** Lambda Statement :
+
+         |- It is an anonymous function declaration that points to a block of code.
+
+         |- This syntax is used when function body spans multiple lines.
+
+         |- SYNTAX :
+
+              |- ([param1, param2, ...param n]) => {
+
+                                       //code block
+                             } 
+              |- e.g,
+                      var result = (x:number) =>
+                      {
+                         x = 10 + x
+                         console.log(x)
+                      };
+                     result(100)                         // OUTPUT : 110
+
+(14) Syntatic Variations :
+
+      (i) Parameter Type Inference :
+
+           |- It is not mandatory to specify the data type of a parameter. 
+
+           |- In such a case the data type of the parameter is " any ".
+
+           |- e.g, 
+                     var result = (x) =>
+                       {
+                           if(typeof x == "number")
+                              {
+                                      console.log(x + "is numeric")
+                               }
+                             else if(typeof x == "string")
+                               {
+				    console.log(x + "is string")
+                               }
+                       }
+				result(100)
+ 				result("Hello")                                     // OUTPUT : 100 is numeric
+           										        Hello is string
+
+       (ii) Optional Parentheses for a single parameter :
+    
+              |- e.g,
+                        var display = x => {  console.log("The function got" + x)  }
+                         display(12)                                                 //OUTPUT: The function got 12
+
+
+      (iii) Optional braces for a single statement, Empty parentheses for no parameter :
+ 
+              |- e.g,
+
+                          var display = () => { console.log("Function Invoked")}
+                          display()                                               //OUTPUT : Function Invoked
+
+
+(15) Function Overloads :
+
+        |- Functions have the capability to operate differently on the basis of the input provided to them.
+
+        |- Or, A program can have multiple methods with the same name with different implementation. This mechanism is termed as " Function Overloading " .
+
+        |- TS provides support for function overloading.
+
+        |- Following are the steps to overload a function in TS :
+
+            (i) Declare multiple functions with the same name but different function signature :
+
+                    |- Function signature include following :
+
+                       (a) The Data Type of the parameter : 
+                  
+                              |- function disp(string):void ;
+                                 function disp(number):void ;
+
+                       (b) The number of parameters :
+
+                             |- function disp(s1:string):void ;
+                                function disp(x:number , y:number):void ;
+
+                       (c) The sequence of parameters :
+
+                             |- function disp(x:number , y:string) : void ;
+                                function disp(a :string , b: number) : void ;
+
+                   |- Function signature does not include the function's return type.
+
+           (ii) The declaration must be followed by a function definition .
+
+                  |- The parameter types should be set to " any " if the parameter types differ during overload.
+
+          (iii) Finally, we must invoke the function to make it functional.
+
+                   e.g,
+                             function disp(s1:string):void;
+			    function disp(n1:number, s1:string):void;
+
+			    function disp(x:any , y ?: any ) :void
+		            {
+   				 console.log(x)
+    				 console.log(y)
+                            }
+				disp("shubham")
+				disp(1 , "saurabh")
+                 
+
+
+
+
+
+                                                            
 
 
 
