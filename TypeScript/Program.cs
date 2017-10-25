@@ -3224,6 +3224,438 @@ var obj = new Agriloan(10, 1)
 
 ***********************************************************************************************************************************************************************
 
+** Object :
+
+    |- An object is an instance which contains set of " key:value pairs ".
+
+    |- The values can be "scalar" values or "functions" or even "arrays" of other object.
+
+    |- SYNTAX :
+
+                   var object_name = {
+
+                        key1: "value1" ,      //scalar value
+                        key2: "value",
+			key3: function() {
+                            
+			// functions
+                       },
+
+                        key4 : ['content1', 'content2'] 		//collection
+                    }
+
+    |- e.g,
+
+       (i) Object literal Notation :
+
+              |- var person = { firstName : "shubham" , lastName : "saurabh" }
+		console.log(person.firstName)
+		console.log(person.lastName)                                          // OUTPUT : shubham
+												  saurabh
+
+
+      (ii) TypeScript Type Template :
+
+             |-  var person = { firstName : "shubham" , lastName : "saurabh" , 
+
+				sayHello : function() { } // Type Template
+                              }
+
+				person.sayHello = function() {
+
+                                    console.log("Hello" + " " + person.firstName)
+                              }
+
+                  person.sayHello()							// OUTPUT : Hello shubham
+
+
+     (iii) Objects as function parameters : 
+
+           |-  var person = { firstName : "shubham" , lastName : "saurabh" }
+
+               var invokePerson = function( obj : { firstName : string , lastName : string } )
+
+                              {
+                                   console.log("first name :" + obj.firstName)
+                                   console.log("lastName :" + obj.lastName)
+                               }
+
+                invokePerson(person)
+
+      (iv) Anonymous Object :
+
+            |-  var invokePerson = function(obj:{ firstName : string , lastName : string }) 
+                                   {
+                                       console.log("firstName :" + obj.firstName)
+                                       console.log("lastName :" + obj.lastName)
+                                  }
+
+                      invokePerson({ firstName : "shubham" , lastName : "saurabh" })            // OUTPUT :  firstName :shubham
+													     lastName :saurabh
+
+
+     (v) Duck Typing :
+
+           |- In duck-typing, two objects are considered to be of the same type if "both share the same set of properties".
+
+           |- Duck-typing verifies the presence of certain properties in the objects, rather than their actual type, to check their suitability.
+       
+           |- The TSC implements the duck-typing system that allows object creation on the fly keeping type safety.
+
+           |- e.g,
+                      interface Ipoint{
+
+			x : number
+                        y : number                        
+                      }
+                           function addPoints( p1:Ipoint , p2:Ipoint ) : Ipoint{
+
+                               var x = p1.x + p2.x
+			       var y = p1.y + p2.y
+				return {x:x , y:y}
+                      }
+                       
+                        var newPoint = addPoints({ x:3, y:4 } , { x:5 , y:1 })         // valid
+                        
+                        var newPoint2 = addPoints({x:1},{x:4,y:3})                     // Error
+
+                                                                                        // OUTPUT : { x: 8, y: 5 }
+
+
+    ***********************************************************************************************************************************************************************
+
+                                                                  TYPESCRIPT : 18 - Namespaces
+
+***********************************************************************************************************************************************************************
+
+** Namespaces :
+
+     |- It is a way to "logically group related code".
+
+     |- This is "inbuilt" into TS unlike JS where variables declarations go into a global scope and if multiple JS files are used within same project there will be
+        possibility  of overwriting or misconstruing the same variables, which will lead to the "global namespace pollution problem" in JS.
+
+** Defining a Namespace :
+
+    |- "namespace" keyword is used to define namespace followed by the namespace name.
+
+    |- e.g,
+             namespace namespace_name {
+
+              export interface interface_name {}
+	      export class class_name{}
+            }
+
+     |- The class or interface which should be accessed outside the namespace should marked with keyword "export".
+
+     |- To access the class or interface in another namespace, the syntax will be "namespaceName.className"
+
+     |- If the first namespace is in separate TypeScript file, then it should be referenced using triple slash reference syntax.
+       
+             ///  <reference path = "SomeFileName.ts" />
+
+     |- e.g,
+
+                FileName :IShape.ts 
+		---------- 
+				namespace Drawing { 
+  				 export interface IShape { 
+     				 draw(); 
+   					}
+				}  
+
+		FileName :Circle.ts 
+		---------- 
+
+			/// <reference path = "IShape.ts" />
+ 
+			namespace Drawing { 
+  				 export class Circle implements IShape { 
+    					  public draw() { 
+        				 console.log("Circle is drawn"); 
+      						}  
+      
+      		FileName :Triangle.ts 
+      		---------- 
+      			
+			/// <reference path = "IShape.ts" /> 
+
+     			 namespace Drawing { 
+       				  export class Triangle implements IShape { 
+            				public draw() { 
+              			 console.log("Triangle is drawn"); 
+           					 } 
+        				 } 
+         
+                 FileName : TestShape.ts 
+                 -----------
+
+         		  /// <reference path = "IShape.ts" />   
+        		 /// <reference path = "Circle.ts" /> 
+        		/// <reference path = "Triangle.ts" />  
+         
+			function drawAllShapes(shape:Drawing.IShape) { 
+            			shape.draw(); 
+         				} 
+         		drawAllShapes(new Drawing.Circle());
+         		drawAllShapes(new Drawing.Triangle());
+    		  }
+   		}
+	      }
+
+
+        ** NOTE :
+
+            |- The above code can be compiled and executed using the following command −
+
+                tsc --out app.js TestShape.ts
+
+                node app.js
+
+            |- OUTPUT :
+ 
+                 Circle is drawn 
+                 Triangle is drawn
+
+
+** Nested Namespaces :
+
+        |- we can define one namespace inside another namespaces as follows :
+
+              namespace namespace_name1 {
+
+                    export namespace namespace_name2 {
+ 
+                            export class class_name { }
+                  }
+              }
+
+        |- e.g,
+                     FileName : Invoice.ts  
+                     ---------------------
+ 
+                       namespace typeScriptTutorial {
+
+                            export namespace invoiceApp {
+
+                              export class Invoice {
+
+                              public discount(price : number) {
+
+                                   return price * .40
+                             }
+                           }
+                         }
+                       }
+
+
+                     FileName : InvoiceTest.ts
+                    ---------------------------
+
+                      /// <reference path = " Invoice.ts " />
+
+                        var invoice = new typeScriptTutorial.invoiceApp.Invoice()
+			console.log(invoice.discount(1000))
+
+
+
+                    How to compile :
+                    ----------------
+ 
+                              tsc --out app.js Invoice.ts InvoiceTest.ts
+                              node app.js
+
+
+                     OUTPUT :
+                    ----------
+
+                        400
+
+
+***********************************************************************************************************************************************************************
+
+                                                                  TYPESCRIPT : 19 - Modules
+
+***********************************************************************************************************************************************************************
+
+** Modules :
+
+    |- A module is designed with the idea to organise code written in TS .
+
+    |- Modules are broadly divided into :-
+
+        (i) Internal modules
+
+       (ii) External Modules
+
+** Internal Module :
+
+     |- It came in earlier version of TS.
+
+     |- This was used to logically group classes, interfaces, functions into one unit and can be exported in another module.
+
+     |- This logical grouping is named "namespace"  in latest version of TS.
+
+     |- So internal modules are obsolete instead we can use namespace.
+
+     |- Internal modules are still supported, but it's recommended to use namespace over internal modules.
+
+     |- SYNTAX :
+
+         (i) Old :
+         --------
+                      module tutorial {
+
+                        export function add(x, y) {
+                       
+                            console.log(x + y)
+                       }
+                     }
+
+        (ii) New :
+        ----------
+         
+                     namespace tutorial {
+
+				export function add(x, y) { console.log(x + y) }
+                     }
+
+** External Modules :
+ 
+     |- These are to specify and load dependencies between multiple external JS files.
+
+     |- If there is only one JS file used, then external modules are not relevant.
+
+     |- Traditionally dependency management between JS files was done using browser script tags (<script> </script>). But that not extendable, as it very linear while 
+        loading modules. That means instead of loading files one after other there is no asynchronous option to load modules.
+
+     |- There are two scenarios for loading dependents JS files from a single main JS file.
+
+        (i) client Side - RequireJS
+
+       (ii) Server Side - NodeJS
+
+
+** Selecting a Module loader :
+
+     |- To support Loading external JS files, we need a module loader. This will be another "js" library.
+
+     |- For browser most common library used is RequireJS.
+
+     |- This is an implementation of "AMD ( Asynchronous Module Definition)" specification.
+
+     |- Instead of loading files one after the other, AMD can load them all separately, even when they are dependent of each other.
+
+
+** Defining External Module :
+
+     |- When defining external module in TS targeting "commonJS" and "AMD", each file is considered a module. So it's optional to use internal module with in external module.
+
+     |- If we are migrating TypeScript from AMD to CommonJS module systems, then there is no additional work needed. 
+
+     |- The only thing we need to change is just the compiler flag Unlike in JavaScript there is an overhead in migrating from CommonJs to AMD or vice versa.
+
+     |- The syntax for declaring an external module is using keyword ‘export’ and ‘import’.
+
+     |- SYNTAX :
+                  //FileName : SomeInterface.ts 
+
+		   export interface SomeInterface { 
+                  //code declarations 
+                 }
+
+     |- To use the declared module in another file, an "import" keyword is used as given below. The file name is only specified no extension used.
+
+                import someInterfaceRef = require(“./SomeInterface”);
+
+     |- e.g,
+
+                    // IShape.ts 
+                    -------------
+
+			export interface IShape { 
+  			 draw(); 
+			}
+
+		   // Circle.ts 
+                   -------------
+
+			import shape = require("./IShape");               --> Important
+
+			export class Circle implements shape.IShape { 
+ 			  public draw() { 
+  			    console.log("Cirlce is drawn (external module)"); 
+   			} 
+		      } 
+
+                  // Triangle.ts 
+                 ----------------
+ 
+                      import shape = require("./IShape");
+ 
+			export class Triangle implements shape.IShape { 
+  			 public draw() { 
+      				console.log("Triangle is drawn (external module)"); 
+   			} 
+		      }
+   
+                 // TestShape.ts 
+                  ---------------
+
+		import shape = require("./IShape"); 
+		import circle = require("./Circle"); 
+		import triangle = require("./Triangle");  
+
+		function drawAllShapes(shapeToDraw: shape.IShape) {
+  		 shapeToDraw.draw(); 
+		} 
+
+		drawAllShapes(new circle.Circle()); 
+		drawAllShapes(new triangle.Triangle());                                      // OUTPUT :    Cirlce is drawn (external module
+													    Triangle is drawn (external module)
+
+***********************************************************************************************************************************************************************
+
+                                                                  TYPESCRIPT : 20 - Ambients
+
+***********************************************************************************************************************************************************************
+
+** Ambients :
+
+       |- Ambient declarations are a way of telling the TypeScript compiler that the actual source code exists "elsewhere".
+
+       |- When we are consuming a bunch of "third party js libraries" like jquery/angularjs/nodejs then we can’t rewrite it in TypeScript.
+
+       |- Ensuring "typesafety" and "intellisense" while using these libraries will be challenging for a TypeScript programmer. 
+
+       |- Ambient declarations help to seamlessly integrate other "js" libraries into TypeScript.
+
+** Defining Ambients :
+
+       |- Ambient declarations are by convention kept in a "type declaration file" with following extension ( "d.ts" )
+
+       |- SYNTAX :    Sample.d.ts
+
+       |- The above file will not be transcompiled to JavaScript. It will be used for type safety and intellisense.
+
+       |- The syntax for declaring ambient variables or modules will be as following −
+
+            declare module Module_name { }
+
+       |- The ambient files should be referenced in the "client TypeScript file" as shown −
+
+             /// <reference path = " Sample.d.ts" />
+
+
+       |- For example reference " www.tutorialspoint.com/typescript/typescript_ambients.html "
+
+
+
+***********************************************************************************************************************************************************************
+
+                                                                  TYPESCRIPT : 21 - 
+
+***********************************************************************************************************************************************************************
 
                   
 
